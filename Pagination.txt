@@ -1,0 +1,38 @@
+  //pagination JQuery
+  
+    $(document).ready(function () {
+        statisticsEvolutionContext.updateTotalRows('@Model.StatisticsEvolutionContext.TotalRows');
+        updateLoadMoreRowCount();
+
+        $('span[id="my-sprinkle"]').click(onSprinkleClick);
+
+        initializePaginationForTable();
+        
+    });
+
+    function initializePaginationForTable() {
+
+        var numberOfRowsPerPage = 10;
+        var currentPage = 0;
+
+        var $table = $('table.em-grid_table');
+        var $pager = $('#StatsGridContainer .pager');
+
+        $pager.html(''); // Clears Container
+
+        var numberOfRows = $table.find('tbody tr').length;
+
+        $table.find('tbody tr').hide().slice(currentPage * numberOfRowsPerPage, (currentPage + 1) * numberOfRowsPerPage).show();
+
+        var numberOfPages = Math.ceil(numberOfRows / numberOfRowsPerPage);
+
+        for (var page = 0; page < numberOfPages; page++) {
+            $pager.append(`<button class="page-number clickable" onclick="changePage(${page})">${page + 1}</button>`); // Refactor
+        }
+    }
+
+    function changePage(pageNumber) {
+        var numberOfRowsPerPage = 10;
+        var $table = $('table.em-grid_table');
+        $table.find('tbody tr').hide().slice(pageNumber * numberOfRowsPerPage, (pageNumber + 1) * numberOfRowsPerPage).show();
+    }
